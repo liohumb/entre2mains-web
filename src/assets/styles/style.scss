@@ -2,7 +2,7 @@
 @use "variables" as v;
 
 /* FONTS */
-
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
 
 /* DEFAULT */
 * {
@@ -20,6 +20,7 @@
 }
 
 html {
+  font-family: v.$primary-font;
   font-size: 62.5%;
   scroll-behavior: smooth;
 }
