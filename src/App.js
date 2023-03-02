@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import {Routes, Route, BrowserRouter} from 'react-router-dom'
 
 import Header from 'navigations/header/Header'
 import Footer from 'navigations/footer/Footer'
@@ -12,14 +12,16 @@ import './assets/styles/style.scss'
 function App() {
     return (
         <>
-            <Header/>
-            <Routes>
-                <Route path="/profil/:userId" element={<User/>}/>
-                <Route path="/connexion" element={<Login/>}/>
-                <Route path="/inscription" element={<Register/>}/>
-                <Route index path="/" element={<Home/>}/>
-            </Routes>
-            <Footer/>
+            <BrowserRouter>
+                <Header/>
+                <Routes>
+                    <Route path="/profil/:userId" element={<User/>}/>
+                    <Route path="/connexion" element={<Login/>}/>
+                    <Route path="/inscription" element={<Register/>}/>
+                    <Route index path="/" element={<Home/>}/>
+                </Routes>
+                <Footer/>
+            </BrowserRouter>
         </>
     )
 }
