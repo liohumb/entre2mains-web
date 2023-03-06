@@ -9,7 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(0, 0, 0, .25);
+  background: rgba(160, 192, 214, .5);
   padding: 0 5%;
 
   @media (max-width: 768px) {
@@ -38,13 +38,13 @@
       position: relative;
 
       input {
-        width: 15vw;
-        height: 3.75vh;
+        width: 17.5svw;
+        height: 4vh;
         font-size: 1.5rem;
-        padding: 1rem;
         border: none;
         border-radius: 1rem;
-        background: rgba(0, 0, 0, .1);
+        background: rgba(160, 192, 214, .5);
+        padding: 1rem 2rem;
 
         @media (max-width: 1024px) {
           width: 20vw;
