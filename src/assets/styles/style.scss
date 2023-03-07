@@ -93,6 +93,39 @@ ul {
   gap: 4rem;
   margin: 10rem 0 0 0;
 
+  &__role {
+    position: absolute;
+    top: 17.5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: 768px) {
+      top: 15%;
+    }
+
+    label {
+      font-size: 1.75rem;
+      color: v.$first-color-light;
+      margin: 0 2rem 0 0;
+    }
+  }
+
+  &__contents {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 4rem;
+    }
+  }
+
   &__content {
     width: 100%;
     display: flex;
@@ -120,6 +153,25 @@ ul {
 
       &::placeholder {
         color: v.$first-color-light;
+      }
+    }
+
+    div {
+      width: 66%;
+      border-bottom: .1rem solid v.$first-color-light;
+    }
+
+    p {
+      width: 100%;
+      font-size: 1.75rem;
+      color: v.$first-color-light;
+      text-align: center;
+      padding: 1rem;
+
+      @media (max-width: 425px) {
+        span {
+          display: none;
+        }
       }
     }
 
