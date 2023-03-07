@@ -1,4 +1,7 @@
-import React, {useState, useEffect} from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+import logo from '../../assets/images/logo-alt.png'
 import './login.scss'
 
 export default function Login() {
@@ -9,6 +12,9 @@ export default function Login() {
     const [error, setError] = useState('')
     const [emailValidated, setEmailValidated] = useState(false)
     const [showSignupButton, setShowSignupButton] = useState(false)
+    const [title, setTitle] = useState('')
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const checkEmail = async () => {
@@ -22,6 +28,7 @@ export default function Login() {
                 setPasswordRequired(data.passwordRequired)
                 setEmailValidated(true)
                 setShowSignupButton(!data.passwordRequired)
+                setTitle(data.passwordRequired ? 'Connexion' : 'Inscription')
             } catch (error) {
                 setEmailValidated(false)
                 setShowSignupButton(false)
@@ -44,8 +51,15 @@ export default function Login() {
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({email, password}),
             })
-            await response.json()
-            // handle successful login
+            const data = await response.json()
+
+            // Check if password is correct
+            if (data.passwordCorrect) {
+                // Navigate to homepage
+                navigate('/')
+            } else {
+                setError('Mot de passe incorrect')
+            }
         } catch (error) {
             setError(error.response.data.msg)
         }
@@ -56,6 +70,7 @@ export default function Login() {
     return (
         <section className="login section">
             <div className="login__container">
+                <h2 className="login__title">{title || <img src={logo} alt=""/>}</h2>
                 <form className="form" onSubmit={handleSubmit}>
                     <div className="form__content">
                         <label htmlFor="email"></label>
@@ -63,7 +78,7 @@ export default function Login() {
                             type="email"
                             name="email"
                             id="email"
-                            placeholder="Votre adresse email"
+                            placeholder="Merci de saisir votre adresse email"
                             value={email}
                             onChange={(event) => setEmail(event.target.value)}
                             required
@@ -85,7 +100,7 @@ export default function Login() {
                             </div>
                             <div className="form__content">
                                 <button type="submit" disabled={loading}>
-                                    Connexion
+                                    {title || 'Connexion'}
                                 </button>
                             </div>
                         </>
@@ -93,12 +108,12 @@ export default function Login() {
                         emailValidated &&
                         showSignupButton && (
                             <div className="form__content">
-                                <button type="button">S'inscrire</button>
+                                <button type="button">{title || 'Inscription'}</button>
                             </div>
                         )
                     )}
+                    {error && <p className="error">{error}</p>}
                 </form>
-                {error && <p className="error">{error}</p>}
             </div>
         </section>
     )

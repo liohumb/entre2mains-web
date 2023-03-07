@@ -1,10 +1,10 @@
-import {Link} from 'react-router-dom'
+import logo from '../../assets/images/logo.png'
 import './header.scss'
 
 export default function Header() {
     return (
         <header className="header">
-            <Link to="/" className="header__logo">Entre 2 Mains</Link>
+            <img src={logo} alt="" className="header__logo"/>
             <nav className="header__menu">
                 <form className="header__menu-search">
                     <label htmlFor="search">
