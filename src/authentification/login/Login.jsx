@@ -1,57 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import './login.scss';
+import React, {useState, useEffect} from 'react'
+import './login.scss'
 
 export default function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordRequired, setPasswordRequired] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [emailValidated, setEmailValidated] = useState(false);
-    const [showSignupButton, setShowSignupButton] = useState(false);
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [passwordRequired, setPasswordRequired] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
+    const [emailValidated, setEmailValidated] = useState(false)
+    const [showSignupButton, setShowSignupButton] = useState(false)
 
     useEffect(() => {
         const checkEmail = async () => {
             try {
                 const response = await fetch('http://localhost:8080/auth/check-email', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email }),
-                });
-                const data = await response.json();
-                setPasswordRequired(data.passwordRequired);
-                setEmailValidated(true);
-                setShowSignupButton(!data.passwordRequired);
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({email}),
+                })
+                const data = await response.json()
+                setPasswordRequired(data.passwordRequired)
+                setEmailValidated(true)
+                setShowSignupButton(!data.passwordRequired)
             } catch (error) {
-                setEmailValidated(false);
-                setShowSignupButton(false);
-                console.error(error);
+                setEmailValidated(false)
+                setShowSignupButton(false)
+                console.error(error)
             }
-        };
+        }
 
         if (email.includes('@')) {
-            checkEmail();
+            checkEmail()
         }
-    }, [email]);
+    }, [email])
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
-        setLoading(true);
+        event.preventDefault()
+        setLoading(true)
 
         try {
             const response = await fetch('http://localhost:8080/auth/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
-            });
-            const data = await response.json();
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({email, password}),
+            })
+            await response.json()
             // handle successful login
         } catch (error) {
-            setError(error.response.data.msg);
+            setError(error.response.data.msg)
         }
 
-        setLoading(false);
-    };
+        setLoading(false)
+    }
 
     return (
         <section className="login section">
@@ -101,5 +101,5 @@ export default function Login() {
                 {error && <p className="error">{error}</p>}
             </div>
         </section>
-    );
+    )
 }
