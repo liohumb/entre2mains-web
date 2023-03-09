@@ -90,7 +90,20 @@ export default function Login() {
                     }
                 }
 
-                localStorage.setItem('isAuthenticated', true)
+                const user = {
+                    id: data.user._id,
+                    role: data.user.role,
+                    firstname: data.user.firstname,
+                    lastname: data.user.lastname,
+                    email: email,
+                    postCode: data.user.postCode,
+                    society: data.user.society,
+                    picturePath: data.user.picturePath,
+                    bannerPath: data.user.bannerPath,
+                    isAuthenticated: true
+                }
+
+                localStorage.setItem('user', JSON.stringify(user))
                 navigate('/')
             } else {
                 setError('Mot de passe incorrect')

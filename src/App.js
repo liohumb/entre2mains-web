@@ -9,16 +9,16 @@ import Create from 'pages/create/Create'
 import './assets/styles/style.scss'
 
 function App() {
-    const isAuthenticated = localStorage.getItem('isAuthenticated')
+    const user = localStorage.getItem('user')
 
     return (
         <>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/post/nouveau" element={<Create/>}/>
+                    {<Route path="/post/nouveau" element={user && (JSON).parse(user).role === "ARTISAN" ? <Create/> : <Navigate to="/"/>} /> }
                     <Route path="/profil/:userId" element={<User/>}/>
-                    {isAuthenticated && <Route path="/connexion" element={<Navigate to="/"/>}/>}
-                    {!isAuthenticated && <Route path="/connexion" element={<Login/>}/>}
+                    {user && <Route path="/connexion" element={<Navigate to="/"/>}/>}
+                    {!user && <Route path="/connexion" element={<Login/>}/>}
                     <Route path="/inscription/:token" element={<Register/>}/>
                     <Route index path="/" element={<Home/>}/>
                 </Routes>

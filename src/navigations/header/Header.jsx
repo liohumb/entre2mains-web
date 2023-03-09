@@ -5,14 +5,14 @@ import logo from '../../assets/images/logo.png'
 import './header.scss'
 
 export default function Header() {
-    const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem('isAuthenticated') === 'true')
+    const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem('user'))
     const navigate = useNavigate()
 
     const handleLogin = () => {
         navigate('/connexion')
     }
     const handleLogout = () => {
-        localStorage.removeItem('isAuthenticated')
+        localStorage.removeItem('user')
         setIsAuthenticated(false)
         navigate('/')
         if (window.location.pathname === '/') {

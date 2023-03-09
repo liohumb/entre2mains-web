@@ -7,7 +7,8 @@ import './create.scss'
 export default function Create() {
     const [fileName, setFileName] = useState('')
     const [description, setDescription] = useState('')
-
+    const user = localStorage.getItem('user')
+    const userId = JSON.parse(user).id
     const handleDrop = (acceptedFiles) => {
         setFileName(acceptedFiles[0].name)
     }
@@ -16,6 +17,7 @@ export default function Create() {
         event.preventDefault()
 
         const formData = new FormData()
+        formData.append('userId', userId)
         formData.append('description', description)
         formData.append('picture', event.target.picture.files[0])
 
