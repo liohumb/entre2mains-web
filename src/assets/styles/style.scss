@@ -133,7 +133,8 @@ ul {
     align-items: center;
     justify-content: center;
 
-    input {
+    input,
+    textarea {
       width: 66%;
       height: 5vh;
       font-size: 1.75rem;
@@ -155,10 +156,18 @@ ul {
         color: v.$first-color-light;
       }
     }
+    
+    textarea {
+      height: 40rem;
+      border-radius: 1rem;
+      border: .1rem solid v.$first-color-light;
+      resize: none;
+    }
 
     div {
       width: 66%;
       border-bottom: .1rem solid v.$first-color-light;
+      cursor: copy;
     }
 
     p {

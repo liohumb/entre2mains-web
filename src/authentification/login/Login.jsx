@@ -9,10 +9,11 @@ export default function Login() {
     const [password, setPassword] = useState('')
     const [passwordRequired, setPasswordRequired] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState('')
     const [emailValidated, setEmailValidated] = useState(false)
     const [showSignupButton, setShowSignupButton] = useState(false)
     const [title, setTitle] = useState('')
+    const [message, setMessage] = useState('')
+    const [error, setError] = useState('')
 
     const navigate = useNavigate()
 
@@ -41,7 +42,27 @@ export default function Login() {
         }
     }, [email])
 
-    const handleSubmit = async (event) => {
+    const handleSignup = async (event) => {
+        event.preventDefault()
+
+        try {
+            const response = await fetch('http://localhost:8080/auth/signup-email', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({email}),
+            })
+
+            if (response.ok) {
+                setMessage('Un email vous à été envoyé afin de continuer votre inscription')
+            } else {
+                setError('Une erreur est survenue, veuillez réessayer plus tard')
+            }
+        } catch (error) {
+            setError(error.response.data.msg)
+        }
+    }
+
+    const handleLogin = async (event) => {
         event.preventDefault()
         setLoading(true)
 
@@ -53,9 +74,23 @@ export default function Login() {
             })
             const data = await response.json()
 
-            // Check if password is correct
-            if (data.passwordCorrect) {
-                // Navigate to homepage
+            if (data.user.password) {
+                const userResponse = await fetch(`http://localhost:8080/new-users/${email}`)
+                const userData = await userResponse.json()
+
+                if (userData.exists) {
+                    const deleteResponse = await fetch(`http://localhost:8080/new-users/${email}`, {
+                        method: 'DELETE',
+                    })
+                    const deleteData = await deleteResponse.json()
+
+                    if (!deleteData.success) {
+                        setError('Une erreur est survenue, veuillez réessayer plus tard')
+                        return
+                    }
+                }
+
+                localStorage.setItem('isAuthenticated', true)
                 navigate('/')
             } else {
                 setError('Mot de passe incorrect')
@@ -71,7 +106,7 @@ export default function Login() {
         <section className="login section">
             <div className="login__container">
                 <h2 className="login__title">{title || <img src={logo} alt=""/>}</h2>
-                <form className="form" onSubmit={handleSubmit}>
+                <form className="form" onSubmit={passwordRequired ? handleLogin : handleSignup}>
                     <div className="form__content">
                         <label htmlFor="email"></label>
                         <input
@@ -108,11 +143,13 @@ export default function Login() {
                         emailValidated &&
                         showSignupButton && (
                             <div className="form__content">
-                                <button type="button">{title || 'Inscription'}</button>
+                                {message ? message :
+                                    <button type="submit">{title || 'Inscription'}</button>
+                                }
                             </div>
                         )
                     )}
-                    {error && <p className="error">{error}</p>}
+                    {error && <p className="form__error">{error}</p>}
                 </form>
             </div>
         </section>
